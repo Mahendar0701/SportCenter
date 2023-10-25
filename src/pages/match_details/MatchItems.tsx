@@ -92,7 +92,7 @@ export default function MatchItems() {
       });
       // window.location.reload();
     } catch (error: any) {
-      console.error("Failed to save :", error.message);
+      console.error("Failed to update :", error.message);
       toast.error("Changes failed. Please try again.", {
         autoClose: 3000,
       });
