@@ -78,16 +78,21 @@ const router = createBrowserRouter([
       },
       {
         path: "profile",
+        element: (
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        ),
 
         children: [
-          {
-            index: true,
-            element: (
-              <ProtectedRoute>
-                <Profile />
-              </ProtectedRoute>
-            ),
-          },
+          // {
+          //   index: true,
+          //   element: (
+          //     <ProtectedRoute>
+          //       <Profile />
+          //     </ProtectedRoute>
+          //   ),
+          // },
           {
             path: "changePassword",
             element: (
@@ -102,20 +107,16 @@ const router = createBrowserRouter([
   },
   {
     path: "favourites",
+    element: (
+      <ProtectedRoute>
+        <Favourites />
+      </ProtectedRoute>
+    ),
     children: [
       {
-        index: true,
-        element: (
-          <ProtectedRoute>
-            <Favourites />
-          </ProtectedRoute>
-        ),
-      },
-      {
         path: "articles",
-        // element: <Favourites />,
         children: [
-          { index: true, element: <Articles /> },
+          // { index: true, element: <Articles /> },
           {
             path: ":articleID",
             element: <ArticleDetailsIndex />,

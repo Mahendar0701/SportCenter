@@ -7,7 +7,8 @@ import { usePreferencesState } from "../../context/preferences/context";
 import { useSportState } from "../../context/sports/context";
 import { useMatchState } from "../../context/matches/context";
 import { API_ENDPOINT } from "../../config/constants";
-import { ArrowPathIcon, MapPinIcon } from "@heroicons/react/24/outline";
+import { LocationMarkerIcon, RefreshIcon } from "@heroicons/react/outline";
+// import { ArrowPathIcon, MapPinIcon } from "@heroicons/react/outline";
 
 export default function FavouriteListItems() {
   //   const [selectedSport, setSelectedSport] = useState<string | null>("Trending");
@@ -204,7 +205,7 @@ const MatchCard = ({ matchID }: { matchID: number }) => {
             </div>
 
             <div className="flex items-center ">
-              <MapPinIcon className="w-4 h-4 mr-1" />
+              <LocationMarkerIcon className="w-4 h-4 mr-1" />
               <p>{match.location}</p>
             </div>
 
@@ -236,7 +237,7 @@ const MatchCard = ({ matchID }: { matchID: number }) => {
             })}
           </p>
           <button onClick={fetchMatch}>
-            <ArrowPathIcon
+            <RefreshIcon
               className={`w-6 h-6 text-black transform ${
                 getScores && "rotate-180"
               } transition-all`}

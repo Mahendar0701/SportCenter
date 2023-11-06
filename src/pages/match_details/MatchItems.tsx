@@ -8,7 +8,8 @@ import { useState, useEffect, Fragment } from "react";
 import { usePreferencesState } from "../../context/preferences/context";
 import { API_ENDPOINT } from "../../config/constants";
 import { toast } from "react-toastify";
-import { MapPinIcon } from "@heroicons/react/24/outline";
+import { LocationMarkerIcon, XIcon } from "@heroicons/react/outline";
+import { button } from "@material-tailwind/react";
 
 export default function MatchItems() {
   const [isOpen, setIsOpen] = useState(false);
@@ -57,6 +58,25 @@ export default function MatchItems() {
     return <span>{errorMessage}</span>;
   }
 
+  const isAuthenticated = !!localStorage.getItem("authToken");
+
+  const isMatchSaved = selectedMatch.includes(state.matches.id);
+
+  const handleSaveMatch = () => {
+    if (isMatchSaved) {
+      const updatedSelectedMatch = selectedMatch.filter(
+        (id) => id !== state.matches.id
+      );
+      setSelectedMatch(updatedSelectedMatch);
+      console.log("updatedSelectedMatch", updatedSelectedMatch);
+      toast.success("Match Removed from Favorites!", { autoClose: 3000 });
+    } else {
+      const updatedSelectedMatch = [...selectedMatch, state.matches.id];
+      setSelectedMatch(updatedSelectedMatch);
+      toast.success("Match Added to Favorites!", { autoClose: 3000 });
+    }
+  };
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const token = localStorage.getItem("authToken") ?? "";
@@ -87,19 +107,11 @@ export default function MatchItems() {
 
       console.log("saved successfully!");
       console.log("updatedPreferences", updatedPreferences);
-      toast.success("Changes Saved successfully!", {
-        autoClose: 3000,
-      });
       // window.location.reload();
     } catch (error: any) {
       console.error("Failed to Save :", error.message);
-      toast.error("Changes failed. Please try again.", {
-        autoClose: 3000,
-      });
     }
   };
-
-  const isAuthenticated = !!localStorage.getItem("authToken");
 
   return (
     <>
@@ -115,25 +127,37 @@ export default function MatchItems() {
                 <div>Loading...</div>
               ) : state.matches ? (
                 <>
-                  <div className="flex justify-between items-center mb-3">
-                    <h1 className="text-2xl font-semibold text-blue-800 uppercase antialiased">
-                      {state.matches.sportName}
-                    </h1>
-                    <div className="flex items-center">
-                      {state.matches.isRunning && (
-                        <div className="relative inline-flex mr-2">
-                          <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                          <div className="w-2 h-2 bg-green-500 rounded-full absolute top-0 left-0 animate-ping"></div>
-                          <div className="w-2 h-2 bg-green-500 rounded-full absolute top-0 left-0 animate-pulse"></div>
+                  <div className="">
+                    <div className="flex justify-between items-center mb-2">
+                      <h1 className="text-2xl font-semibold text-blue-800 uppercase antialiased">
+                        {state.matches.sportName}
+                      </h1>
+
+                      <div className="flex">
+                        <div className="flex items-center mx-5">
+                          {state.matches.isRunning && (
+                            <div className="relative inline-flex mr-2">
+                              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                              <div className="w-2 h-2 bg-green-500 rounded-full absolute top-0 left-0 animate-ping"></div>
+                              <div className="w-2 h-2 bg-green-500 rounded-full absolute top-0 left-0 animate-pulse"></div>
+                            </div>
+                          )}
+                          <p
+                            className={`text-green-500 ${
+                              state.matches.isRunning ? "animate-pulse" : ""
+                            }`}
+                          >
+                            {state.matches.isRunning && "Live"}
+                          </p>
                         </div>
-                      )}
-                      <p
-                        className={`text-green-500 ${
-                          state.matches.isRunning ? "animate-pulse" : ""
-                        }`}
-                      >
-                        {state.matches.isRunning && "Live"}
-                      </p>
+                        <button
+                          type="button"
+                          onClick={closeModal}
+                          className="p-2 rounded-full text-gray-600 hover:bg-gray-200"
+                        >
+                          <XIcon className="w-6 h-6" />
+                        </button>
+                      </div>
                     </div>
                   </div>
 
@@ -143,7 +167,7 @@ export default function MatchItems() {
                   </h3>
                   <div className="mb-4">
                     <div className="flex items-center my-2 ">
-                      <MapPinIcon className="w-4 h-4 mr-1" />{" "}
+                      <LocationMarkerIcon className="w-4 h-4 mr-1" />{" "}
                       {state.matches.location}
                     </div>
                     <p className="text-sm text-gray-700">
@@ -194,52 +218,24 @@ export default function MatchItems() {
                 </>
               ) : (
                 <div className="text-center text-red-600 dark:text-red-400">
-                  Failed to load article.
+                  Failed to load Match.
                 </div>
               )}
 
               <div className="mt-4 flex justify-center">
-                <form>
+                <form onSubmit={handleSubmit}>
                   <div className="flex">
                     {isAuthenticated && (
                       <div>
-                        <label>
-                          <input
-                            type="checkbox"
-                            value={state.matches.id}
-                            className="text-blue-500 focus:ring-blue-500"
-                            onChange={(e) => {
-                              const value = e.target.value;
-                              setSelectedMatch((prev) =>
-                                prev.includes(value)
-                                  ? prev.filter((item) => item !== value)
-                                  : [...prev, value]
-                              );
-                            }}
-                            checked={selectedMatch.some(
-                              (id) => id == state.matches.id
-                            )}
-                          />
-                          <span>Save Match</span>
-                        </label>
                         <button
-                          type="button"
-                          className="mx-5 px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                          onClick={handleSubmit}
+                          type="submit"
+                          className={`mx-5 px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500`}
+                          onClick={handleSaveMatch}
                         >
-                          Save
+                          {isMatchSaved ? "Remove" : "Save"}
                         </button>
                       </div>
                     )}
-                    <div>
-                      <button
-                        type="button"
-                        className="mx-2 inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                        onClick={closeModal}
-                      >
-                        Close
-                      </button>
-                    </div>
                   </div>
                 </form>
               </div>

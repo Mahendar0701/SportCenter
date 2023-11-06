@@ -4,10 +4,11 @@ import { useEffect, useState } from "react";
 import { useMatchState } from "../../context/matches/context";
 import { Link } from "react-router-dom";
 import {
-  CalendarDaysIcon,
-  MapPinIcon,
-  ArrowPathIcon,
-} from "@heroicons/react/24/outline";
+  CalendarIcon,
+  LocationMarkerIcon,
+  MapIcon,
+  RefreshIcon,
+} from "@heroicons/react/outline";
 import { API_ENDPOINT } from "../../config/constants";
 import { usePreferencesState } from "../../context/preferences/context";
 
@@ -161,7 +162,7 @@ const MatchCard = ({ matchID }: { matchID: number }) => {
             </div>
 
             <div className="flex items-center ">
-              <MapPinIcon className="w-4 h-4 mr-1" />
+              <LocationMarkerIcon className="w-4 h-4 mr-1" />
               <p>{match.location}</p>
             </div>
 
@@ -184,7 +185,8 @@ const MatchCard = ({ matchID }: { matchID: number }) => {
         </Link>
 
         <div className="flex justify-between items-center">
-          <p className="text-md">
+          <p className="flex text-md">
+            <CalendarIcon className="w-6 h-6 mr-1" />
             {new Date(match.endsAt).toLocaleDateString("en-US", {
               weekday: "short",
               year: "numeric",
@@ -193,7 +195,7 @@ const MatchCard = ({ matchID }: { matchID: number }) => {
             })}
           </p>
           <button onClick={fetchMatch}>
-            <ArrowPathIcon
+            <RefreshIcon
               className={`w-6 h-6 text-black transform ${
                 getScores && "rotate-180"
               } transition-all`}

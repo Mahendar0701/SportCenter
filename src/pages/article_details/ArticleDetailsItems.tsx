@@ -5,6 +5,7 @@ import { useState, useEffect, Fragment } from "react";
 import { API_ENDPOINT } from "../../config/constants";
 import { usePreferencesState } from "../../context/preferences/context";
 import { toast } from "react-toastify";
+import { XIcon } from "@heroicons/react/outline";
 
 export default function ArticleItems() {
   const [isOpen, setIsOpen] = useState(false);
@@ -76,19 +77,34 @@ export default function ArticleItems() {
 
       console.log("saved successfully!");
       console.log("updatedPreferences", updatedPreferences);
-      toast.success("Changes Saved successfully!", {
-        autoClose: 3000,
-      });
+
       // window.location.reload();
     } catch (error: any) {
       console.error("Failed to save :", error.message);
-      toast.error("Changes failed. Please try again.", {
-        autoClose: 3000,
-      });
     }
   };
 
   const isAuthenticated = !!localStorage.getItem("authToken");
+  const isArticleSaved = selectedArticle.includes(
+    articleDetailsState.articles.id
+  );
+
+  const handleSaveArticle = () => {
+    if (isArticleSaved) {
+      const updatedSelectedArticle = selectedArticle.filter(
+        (id) => id !== articleDetailsState.articles.id
+      );
+      setSelectedArticle(updatedSelectedArticle);
+      toast.success("Article Removed from Favorites!", { autoClose: 3000 });
+    } else {
+      const updatedSelectedArticle = [
+        ...selectedArticle,
+        articleDetailsState.articles.id,
+      ];
+      setSelectedArticle(updatedSelectedArticle);
+      toast.success("Article Added to Favorites!", { autoClose: 3000 });
+    }
+  };
 
   return (
     <>
@@ -98,7 +114,7 @@ export default function ArticleItems() {
           className="fixed inset-0 z-10 overflow-y-auto "
           onClose={closeModal}
         >
-          <div className="flex items-center justify-center min-h-screen px-4 text-center">
+          <div className="flex items-center justify-center min-h-screen px-4 text-center dark:bg-gray-800">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -120,12 +136,22 @@ export default function ArticleItems() {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="inline-block shadow-md w-full max-w-4xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white  rounded-2xl">
+              <div className="inline-block shadow-md w-full max-w-4xl px-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white  rounded-2xl">
                 <Dialog.Title
                   as="h3"
                   className="text-2xl font-bold text-gray-900 mb-4"
                 >
-                  {articleDetailsState.articles.sport.name}
+                  <div className="flex justify-between pt-5">
+                    <p> {articleDetailsState.articles.sport.name}</p>
+
+                    <button
+                      type="button"
+                      onClick={closeModal}
+                      className="p-2 rounded-full text-gray-600 hover:bg-gray-200"
+                    >
+                      <XIcon className="w-6 h-6" />
+                    </button>
+                  </div>
                 </Dialog.Title>
 
                 {articleDetailsState.isLoading ? (
@@ -173,47 +199,29 @@ export default function ArticleItems() {
                 )}
 
                 <div className="mt-6 flex justify-center">
-                  <form>
+                  <form onSubmit={handleSubmit}>
                     <div className="flex">
                       {isAuthenticated && (
                         <div>
-                          <label>
-                            <input
-                              type="checkbox"
-                              value={articleDetailsState.articles.id}
-                              className="rounded text-blue-500 focus:ring-blue-500 m-2"
-                              onChange={(e) => {
-                                const value = e.target.value;
-                                setSelectedArticle((prev) =>
-                                  prev.includes(value)
-                                    ? prev.filter((item) => item !== value)
-                                    : [...prev, value]
-                                );
-                              }}
-                              checked={selectedArticle.some(
-                                (id) => id == articleDetailsState.articles.id
+                          {isAuthenticated && (
+                            <button
+                              onClick={handleSaveArticle}
+                              type="submit"
+                              className={``}
+                            >
+                              {isArticleSaved ? (
+                                <span className="m-2  justify-center px-6 py-2 text-white   rounded-md hover:bg-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 mb-4 block dark:text-white font-sans text-base font-semibold uppercase leading-relaxed tracking-normal bg-blue-500 antialiased">
+                                  Remove
+                                </span>
+                              ) : (
+                                <span className="m-2  justify-center px-6 py-2 text-white   rounded-md hover:bg-pink-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 mb-4 block dark:text-white font-sans text-base font-semibold uppercase leading-relaxed tracking-normal bg-pink-500 antialiased">
+                                  Save
+                                </span>
                               )}
-                            />
-                            <span>Save Article</span>
-                          </label>
-                          <button
-                            type="button"
-                            className="m-2 inline-flex justify-center px-6 py-3 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                            onClick={handleSubmit}
-                          >
-                            save
-                          </button>
+                            </button>
+                          )}
                         </div>
                       )}
-                      <div>
-                        <button
-                          type="button"
-                          className="m-2 inline-flex justify-center px-6 py-3 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                          onClick={closeModal}
-                        >
-                          Close
-                        </button>
-                      </div>
                     </div>
                   </form>
                 </div>

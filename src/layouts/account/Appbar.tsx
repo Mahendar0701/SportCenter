@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useContext, Fragment, useEffect } from "react";
 import { Disclosure, Menu, Transition, Switch } from "@headlessui/react";
-import { UserCircleIcon } from "@heroicons/react/24/outline";
+import { UserCircleIcon } from "@heroicons/react/outline";
+
 import Logo from "../../assets/images/logo.jpg";
 import { Link, useLocation } from "react-router-dom";
 import { ThemeContext } from "../../context/theme";
