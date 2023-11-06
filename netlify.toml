@@ -12,8 +12,6 @@ from = "/signin"
 to = "/index.html"
 status = 200
 
-
-
 [[redirects]]
 from = "/*"  
 to = "/index.html"
@@ -24,8 +22,7 @@ from = "/tasks"
 to = "/index.html"
 status = 200
 
-
 [[redirects]]
 from = "/notfound"  
-to = "/path/to/404/page"  
-status = 404
+to = "/path/to/404/page"
+status = 404
