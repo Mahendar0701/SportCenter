@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { getMatchDetails } from "../../context/match_details/action";
 import { useMatchDetailsDispatch } from "../../context/match_details/context";
 
-import MatchItems from "./MatchItems";
+import MatchItems from "./MatchDetailsItems";
 import { useParams } from "react-router-dom";
 import { fetchPreferences } from "../../context/preferences/action";
 import { usePreferencesDispatch } from "../../context/preferences/context";

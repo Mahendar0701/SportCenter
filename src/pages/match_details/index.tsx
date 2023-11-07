@@ -1,7 +1,7 @@
 import React from "react";
 
 // import MatchList from "./MatchDetails";
-import Match from "./Match";
+import Match from "./MatchDetails";
 // import ArticleListItems from "./ArticleLi";
 
 import { Outlet } from "react-router-dom";
