@@ -1,12 +1,6 @@
 # Sports-Center React Application
 
 Welcome to the Sports-Center React Application repository! This application is part of my capstone project of WD301. It is built using React and TypeScript.
-## Table of Contents
-
-- [Features](#features)
-- [Getting Started](#getting-started)
-- [Usage](#usage)
-- [Customization](#customization)
 
 ## Features
 
