@@ -124,7 +124,7 @@ const ArticleFilterLayout: React.FC = () => {
   }
 
   return (
-    <div className="p-4 rounded-xl bg-white border border-gray-200  dark:bg-gray-500 shadow-sm">
+    <div className="p-4 rounded-xl bg-white border border-gray-200  dark:bg-gray-500 shadow-md">
       <div className="bg-white">
         {isAuthenticated &&
         preferences &&

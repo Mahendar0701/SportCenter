@@ -20,7 +20,7 @@ const ArticleList: React.FC = () => {
     fetchSports(dispatchSport);
     fetchPreferences(dispatchPreferences);
     fetchMatches(dispatchMatch);
-  }, []);
+  }, [dispatchArticle, dispatchMatch, dispatchPreferences, dispatchSport]);
 
   return (
     <div className="mr-7 my-5">

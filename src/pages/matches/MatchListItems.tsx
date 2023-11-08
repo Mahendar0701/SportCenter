@@ -32,45 +32,53 @@ export default function MemberListItems() {
 
   if (isAuthenticated) {
     if (preferences && preferences.sports && preferences.teams) {
-      matches.forEach((match) => {
-        const sportMatch = preferences.sports.some(
-          (prefSport) => match.sportName === prefSport
-        );
-        const teamMatch =
-          preferences.teams.some(
-            (prefTeam) => match.teams[0].name == prefTeam
-          ) ||
-          preferences.teams.some((prefTeam) => match.teams[1].name == prefTeam);
+      matches.forEach(
+        (match: { sportName: any; teams: { name: any }[]; isRunning: any }) => {
+          const sportMatch = preferences.sports.some(
+            (prefSport: any) => match.sportName === prefSport
+          );
+          const teamMatch =
+            preferences.teams.some(
+              (prefTeam: any) => match.teams[0].name == prefTeam
+            ) ||
+            preferences.teams.some(
+              (prefTeam: any) => match.teams[1].name == prefTeam
+            );
 
-        if (sportMatch || teamMatch) {
-          if (!match.isRunning) {
-            last5Matches.push(match);
-          } else {
-            liveMatches.push(match);
+          if (sportMatch || teamMatch) {
+            if (!match.isRunning) {
+              last5Matches.push(match);
+            } else {
+              liveMatches.push(match);
+            }
           }
         }
-      });
+      );
     }
   } else {
     matches
-      .filter((match) => !match.isRunning)
+      .filter((match: { isRunning: any }) => !match.isRunning)
       .slice(0, 5)
-      .forEach((match) => {
+      .forEach((match: any) => {
         last5Matches.push(match);
       });
 
     matches
-      .filter((match) => match.isRunning)
+      .filter((match: { isRunning: any }) => match.isRunning)
       .slice(0, 5)
-      .forEach((match) => {
+      .forEach((match: any) => {
         liveMatches.push(match);
       });
   }
   if (last5Matches.length === 0 && liveMatches.length === 0) {
     last5Matches.push(
-      ...matches.filter((match) => !match.isRunning).slice(0, 5)
+      ...matches
+        .filter((match: { isRunning: any }) => !match.isRunning)
+        .slice(0, 5)
     );
-    liveMatches.push(...matches.filter((match) => match.isRunning));
+    liveMatches.push(
+      ...matches.filter((match: { isRunning: any }) => match.isRunning)
+    );
   }
 
   // console.log("last5Matches", matches);
@@ -95,7 +103,7 @@ export default function MemberListItems() {
 
   return (
     <>
-      <div>
+      <div className="overflow-x-auto">
         <p className="text-xl ">Live Matches</p>
         {liveMatchesRow.length > 0 ? (
           <div className="flex flex-row">{liveMatchesRow}</div>
@@ -104,9 +112,11 @@ export default function MemberListItems() {
             No live matches matching your preferences are available.
           </p>
         )}
-        <br />
+        <hr className="my-2 border-gray-400" />
         <p className="text-xl ">Previous Matches</p>
-        <div className="flex flex-row ">{last5MatchesRow}</div>
+        <div className="overflow-x-auto">
+          <div className="flex flex-row ">{last5MatchesRow}</div>
+        </div>
       </div>
     </>
   );
@@ -134,7 +144,7 @@ const MatchCard = ({ matchID }: { matchID: number }) => {
   return match ? (
     <div
       key={match.id}
-      className="border p-5 h-52 w-92 rounded-md shadow-sm hover:shadow-md"
+      className="border  p-5 h-52 w-92 rounded-md shadow-md hover:shadow-lg"
     >
       <div className="flex flex-col justify-between h-full">
         <Link to={`/account/matches/${match.id}`}>

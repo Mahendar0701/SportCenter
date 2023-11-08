@@ -5,11 +5,15 @@ import { useMatchDetailsState } from "../../context/match_details/context";
 // import { useMatchDispatch } from "../../context/match_details/context";
 import { Transition, Dialog } from "@headlessui/react";
 import { useState, useEffect, Fragment } from "react";
-import { usePreferencesState } from "../../context/preferences/context";
+import {
+  usePreferencesDispatch,
+  usePreferencesState,
+} from "../../context/preferences/context";
 import { API_ENDPOINT } from "../../config/constants";
 import { toast } from "react-toastify";
 import { LocationMarkerIcon, XIcon } from "@heroicons/react/outline";
 import { button } from "@material-tailwind/react";
+import { fetchPreferences } from "../../context/preferences/action";
 
 export default function MatchItems() {
   const [isOpen, setIsOpen] = useState(false);
@@ -33,6 +37,7 @@ export default function MatchItems() {
 
   const state: any = useMatchDetailsState();
   const preferencesState: any = usePreferencesState();
+  const dispatchPreferences = usePreferencesDispatch();
 
   //   const dispatchArticle = useArticleDispatch();
 
@@ -108,6 +113,7 @@ export default function MatchItems() {
       console.log("saved successfully!");
       console.log("updatedPreferences", updatedPreferences);
       // window.location.reload();
+      fetchPreferences(dispatchPreferences);
     } catch (error: any) {
       console.error("Failed to Save :", error.message);
     }

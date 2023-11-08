@@ -5,6 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Transition, Dialog } from "@headlessui/react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
+import { XIcon } from "@heroicons/react/outline";
 
 type Inputs = {
   current_password: string;
@@ -14,6 +17,8 @@ type Inputs = {
 const PasswordForm = () => {
   const [error] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
 
   useEffect(() => {
     setIsOpen(true);
@@ -93,13 +98,24 @@ const PasswordForm = () => {
                     as="h3"
                     className="text-lg font-medium leading-6 text-gray-900"
                   >
-                    Change Password
+                    <div className="flex justify-between ">
+                      <p> Change Password</p>
+
+                      <button
+                        type="button"
+                        onClick={closeModal}
+                        className="p-2 rounded-full text-gray-600 hover:bg-gray-200"
+                      >
+                        <XIcon className="w-6 h-6" />
+                      </button>
+                    </div>
                   </Dialog.Title>
                   <div className="mt-2">
                     <form onSubmit={handleSubmit(onSubmit)}>
                       <div>
                         {error && <span className="text-red-500">{error}</span>}
                       </div>
+
                       <div className="mb-4">
                         <label
                           className="block text-gray-700 text-sm font-bold mb-2"
@@ -107,14 +123,28 @@ const PasswordForm = () => {
                         >
                           Old Password:
                         </label>
-                        <input
-                          id="current_password"
-                          type="password"
-                          placeholder="Enter Old Password..."
-                          autoFocus
-                          {...register("current_password", { required: true })}
-                          className="w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue"
-                        />
+                        <div className="relative">
+                          <input
+                            id="current_password"
+                            type={showCurrentPassword ? "text" : "password"}
+                            placeholder="Enter Old Password..."
+                            autoFocus
+                            {...register("current_password", {
+                              required: true,
+                            })}
+                            className="w-full border rounded-md py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue"
+                          />
+                          <span
+                            onClick={() =>
+                              setShowCurrentPassword(!showCurrentPassword)
+                            }
+                            className="absolute right-3 top-3 cursor-pointer"
+                          >
+                            <FontAwesomeIcon
+                              icon={showCurrentPassword ? faEye : faEyeSlash}
+                            />
+                          </span>
+                        </div>
                         {errors.current_password && (
                           <p className="text-red-500 text-xs italic">
                             Old password is required.
@@ -128,13 +158,23 @@ const PasswordForm = () => {
                         >
                           New Password:
                         </label>
-                        <input
-                          id="new_password"
-                          type="password"
-                          placeholder="Enter New Password..."
-                          {...register("new_password", { required: true })}
-                          className="w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue"
-                        />
+                        <div className="relative">
+                          <input
+                            id="new_password"
+                            type={showNewPassword ? "text" : "password"}
+                            placeholder="Enter New Password..."
+                            {...register("new_password", { required: true })}
+                            className="w-full border rounded-md py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue"
+                          />
+                          <span
+                            onClick={() => setShowNewPassword(!showNewPassword)}
+                            className="absolute right-3 top-3 cursor-pointer"
+                          >
+                            <FontAwesomeIcon
+                              icon={showNewPassword ? faEye : faEyeSlash}
+                            />
+                          </span>
+                        </div>
                         {errors.new_password && (
                           <p className="text-red-500 text-xs italic">
                             New password is required.
@@ -148,13 +188,6 @@ const PasswordForm = () => {
                         >
                           Change
                         </button>
-                        <button
-                          type="button"
-                          className=" w-32 inline-flex justify-center px-6 py-3 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                          onClick={closeModal}
-                        >
-                          Close
-                        </button>
                       </div>
                     </form>
                   </div>
@@ -164,63 +197,6 @@ const PasswordForm = () => {
           </div>
         </Dialog>
       </Transition>
-      {/* <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-700">
-            Change Password
-          </h2>
-        </div>
-        <div>{error && <span className="text-red-500">{error}</span>}</div>
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="current_password"
-          >
-            Old Password:
-          </label>
-          <input
-            id="current_password"
-            type="password"
-            placeholder="Enter Old Password..."
-            autoFocus
-            {...register("current_password", { required: true })}
-            className="w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue"
-          />
-          {errors.current_password && (
-            <p className="text-red-500 text-xs italic">
-              Old password is required.
-            </p>
-          )}
-        </div>
-        <div className="mb-6">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="new_password"
-          >
-            New Password:
-          </label>
-          <input
-            id="new_password"
-            type="password"
-            placeholder="Enter New Password..."
-            {...register("new_password", { required: true })}
-            className="w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue"
-          />
-          {errors.new_password && (
-            <p className="text-red-500 text-xs italic">
-              New password is required.
-            </p>
-          )}
-        </div>
-        <div className="text-center">
-          <button
-            type="submit"
-            className="w-full bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline-blue"
-          >
-            Change Password
-          </button>
-        </div>
-      </form> */}
     </div>
   );
 };

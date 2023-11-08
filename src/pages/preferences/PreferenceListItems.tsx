@@ -7,7 +7,11 @@ import { Fragment, useState } from "react";
 import { API_ENDPOINT } from "../../config/constants";
 import { useSportState } from "../../context/sports/context";
 import { useTeamState } from "../../context/teams/context";
-import { usePreferencesState } from "../../context/preferences/context";
+import {
+  usePreferencesDispatch,
+  usePreferencesState,
+} from "../../context/preferences/context";
+import { fetchPreferences } from "../../context/preferences/action";
 
 export default function PreferenceListItems() {
   let [isOpen, setIsOpen] = useState(false);
@@ -28,6 +32,7 @@ export default function PreferenceListItems() {
   const sportState: any = useSportState();
   const teamState: any = useTeamState();
   const preferencesState: any = usePreferencesState();
+  const dispatchPreferences = usePreferencesDispatch();
 
   const { sports, isLoading1, isError1, errorMessage1 } = sportState;
   const { teams, isLoading, isError, errorMessage } = teamState;
@@ -84,7 +89,8 @@ export default function PreferenceListItems() {
 
       console.log("Preferences updated successfully!");
       console.log("selectedSports", updatedPreferences);
-      window.location.reload();
+      // window.location.reload();
+      fetchPreferences(dispatchPreferences);
     } catch (error: any) {
       console.error("Failed to update preferences:", error.message);
     }

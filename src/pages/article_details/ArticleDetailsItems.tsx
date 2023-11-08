@@ -3,9 +3,13 @@ import { useArticleDetailsState } from "../../context/article_details/context";
 import { Transition, Dialog } from "@headlessui/react";
 import { useState, useEffect, Fragment } from "react";
 import { API_ENDPOINT } from "../../config/constants";
-import { usePreferencesState } from "../../context/preferences/context";
+import {
+  usePreferencesDispatch,
+  usePreferencesState,
+} from "../../context/preferences/context";
 import { toast } from "react-toastify";
 import { XIcon } from "@heroicons/react/outline";
+import { fetchPreferences } from "../../context/preferences/action";
 
 export default function ArticleItems() {
   const [isOpen, setIsOpen] = useState(false);
@@ -27,16 +31,17 @@ export default function ArticleItems() {
 
   const articleDetailsState: any = useArticleDetailsState();
   const preferencesState: any = usePreferencesState();
+  const dispatchPreferences = usePreferencesDispatch();
 
   const { articles, isLoading, isError, errorMessage } = articleDetailsState;
   const { preferences, isLoading2, isError2, errorMessage2 } = preferencesState;
 
   useEffect(() => {
     if (preferences && preferences.sports && preferences.teams) {
-      setSelectedSports(preferences.sports || []);
-      setSelectedTeams(preferences.teams || []);
+      // setSelectedSports(preferences.sports || []);
+      // setSelectedTeams(preferences.teams || []);
       setSelectedArticle(preferences.articles || []);
-      setSelectedMatch(preferences.matches || []);
+      // setSelectedMatch(preferences.matches || []);
     }
   }, [preferences]);
 
@@ -52,10 +57,8 @@ export default function ArticleItems() {
     const token = localStorage.getItem("authToken") ?? "";
 
     const updatedPreferences = {
-      sports: selectedSports,
-      teams: selectedTeams,
+      ...preferences,
       articles: selectedArticle,
-      matches: selectedMatch,
     };
 
     try {
@@ -79,6 +82,7 @@ export default function ArticleItems() {
       console.log("updatedPreferences", updatedPreferences);
 
       // window.location.reload();
+      fetchPreferences(dispatchPreferences);
     } catch (error: any) {
       console.error("Failed to save :", error.message);
     }

@@ -134,7 +134,7 @@ export default function ArticleListItems() {
           </div>
         </div>
       ) : (
-        <div className="my-5 max-h-[1090px]  relative overflow-y-scroll bg-gray-50  dark:bg-gray-600 p-5 rounded-xl">
+        <div className="my-5 max-h-[1090px]  relative overflow-y-scroll bg-gray-100  dark:bg-gray-600 p-5 rounded-xl">
           {filteredArticles.map((article: any) => (
             <div
               key={article.id}

@@ -1,13 +1,20 @@
 /* eslint-disable prefer-const */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Fragment, useEffect, useState } from "react";
-import { useArticleState } from "../../context/articles/context";
+import {
+  useArticleDispatch,
+  useArticleState,
+} from "../../context/articles/context";
 import { Link } from "react-router-dom";
 import { usePreferencesState } from "../../context/preferences/context";
-import { useSportState } from "../../context/sports/context";
-import { useMatchState } from "../../context/matches/context";
+import { useSportDispatch, useSportState } from "../../context/sports/context";
+import { useMatchDispatch, useMatchState } from "../../context/matches/context";
 import { API_ENDPOINT } from "../../config/constants";
 import { LocationMarkerIcon, RefreshIcon } from "@heroicons/react/outline";
+import { fetchArticles } from "../../context/articles/action";
+import { fetchMatches } from "../../context/matches/action";
+import { fetchPreferences } from "../../context/preferences/action";
+import { fetchSports } from "../../context/sports/action";
 // import { ArrowPathIcon, MapPinIcon } from "@heroicons/react/outline";
 
 export default function FavouriteListItems() {
@@ -22,6 +29,17 @@ export default function FavouriteListItems() {
   const { sports, isLoading1, isError1, errorMessage1 } = sportState;
   const { preferences, isLoading2, isError2, errorMessage2 } = preferencesState;
   const { matches, isLoading3, isError3, errorMessage3 } = matchState;
+
+  // const dispatchArticle = useArticleDispatch();
+  // const dispatchSport = useSportDispatch();
+  const dispatchPreferences = usePreferencesState();
+  // const dispatchMatch = useMatchDispatch();
+
+  useEffect(() => {
+    console.log("useeffect fav");
+    fetchPreferences(dispatchPreferences);
+  }, []);
+  console.log("preferences in fav", preferences);
 
   if (isLoading || isLoading1 || isLoading2) {
     return <span>Loading articles...</span>;

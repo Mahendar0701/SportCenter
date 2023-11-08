@@ -38,11 +38,6 @@ export const updatePreferences = async (
 ) => {
   const token = localStorage.getItem("authToken") ?? "";
 
-  //   const UserData = localStorage.getItem("userData");
-  //   const userDatas = JSON.parse(UserData);
-  //   const userId = userDatas.id;
-  //   console.log("iddd", userId);
-
   try {
     dispatch({ type: "UPDATE_PREFERENCES_REQUEST" });
     const response = await fetch(`${API_ENDPOINT}/users/preferences`, {
