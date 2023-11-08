@@ -88,7 +88,7 @@ export default function PreferenceListItems() {
       }
 
       console.log("Preferences updated successfully!");
-      console.log("selectedSports", updatedPreferences);
+      console.log("updatedPreferences", updatedPreferences);
       // window.location.reload();
       fetchPreferences(dispatchPreferences);
     } catch (error: any) {
