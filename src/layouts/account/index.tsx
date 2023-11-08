@@ -8,7 +8,6 @@ const AccountLayout = () => {
   return (
     <>
       <Appbar />
-      {/* <DefaultSidebar /> */}
       <main>
         <div className=" ml-5 py-4 sm:px-6 lg:px-1 ">
           {/* <div className="mx-16  py-6 sm:px-6 lg:px-1"> */}

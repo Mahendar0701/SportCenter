@@ -9,6 +9,7 @@ import Articles from "../articles";
 import ArticleFilter from "../filter";
 import Matches from "../matches";
 import { useArticleDispatch } from "../../context/articles/context";
+import { Outlet } from "react-router-dom";
 
 const Dashboard = () => {
   const dispatchSport = useSportDispatch();
@@ -40,6 +41,7 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
+      <Outlet />
     </>
   );
 };

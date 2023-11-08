@@ -119,6 +119,13 @@ export default function MatchItems() {
     }
   };
 
+  function calculateDuration(startDate: Date, endDate: Date): string {
+    const duration = endDate.getTime() - startDate.getTime();
+    const hours = Math.floor(duration / (1000 * 60 * 60));
+    const minutes = Math.floor((duration % (1000 * 60 * 60)) / (1000 * 60));
+    return `${hours}h ${minutes}m `;
+  }
+
   return (
     <>
       <Transition appear show={isOpen} as={Fragment}>
@@ -171,42 +178,53 @@ export default function MatchItems() {
                   <h3 className="text-2xl font-semibold mb-2">
                     {state.matches.name}
                   </h3>
-                  <div className="mb-4">
-                    <div className="flex items-center my-2 ">
-                      <LocationMarkerIcon className="w-4 h-4 mr-1" />{" "}
-                      {state.matches.location}
+                  <div className="flex space-x-8 flex-row ">
+                    <div className="m-4 ">
+                      <div className="flex items-center my-2 ">
+                        <LocationMarkerIcon className="w-4 h-4 mr-1" />{" "}
+                        {state.matches.location}
+                      </div>
+                      <p className="text-md text-gray-700">
+                        <span>Starts At:</span>{" "}
+                        {new Date(state.matches.startsAt).toLocaleString()}
+                      </p>
+                      <p className="text-md text-gray-700">
+                        <span>Ends At:</span>{" "}
+                        {new Date(state.matches.endsAt).toLocaleString()}
+                      </p>
+
+                      <p className="text-md text-gray-700">
+                        <span>Duration:</span>{" "}
+                        {calculateDuration(
+                          new Date(state.matches.startsAt),
+                          new Date(state.matches.endsAt)
+                        )}
+                      </p>
                     </div>
-                    <p className="text-sm text-gray-700">
-                      <span>Starts At:</span>{" "}
-                      {new Date(state.matches.startsAt).toLocaleString()}
-                    </p>
-                    <p className="text-sm text-gray-700">
-                      <span>Ends At:</span>{" "}
-                      {new Date(state.matches.endsAt).toLocaleString()}
-                    </p>
 
-                    <p className="text-sm text-gray-700">
-                      <span>Is Running:</span>{" "}
-                      {state.matches.isRunning ? "Yes" : "No"}
-                    </p>
-                  </div>
-
-                  <div className="mb-4">
-                    <h4 className="text-lg font-semibold mb-2">Score:</h4>
-                    <ul className="list-disc list-inside">
-                      {Object.entries(state.matches.score).map(
-                        ([team, scores]: [any, any]) => (
-                          <li key={team} className="text-sm ml-2">
-                            {team}: {scores}
-                          </li>
-                        )
-                      )}
-                    </ul>
+                    <div className="flex space-x-4 items-center m-5">
+                      <div className="mb-4">
+                        <div className="flex flex-row">
+                          {Object.entries(state.matches.score).map(
+                            ([team, scores]: [any, any]) => (
+                              <div key={team} className="flex text-sm ml-2">
+                                <p className="mx-2 bg-cyan-400 px-2 py-2 text-center text-xl rounded-md text-white">
+                                  {team}
+                                </p>
+                                <p className=" text-2xl font-bold mx-3 my-2 text-green-600">
+                                  {scores}
+                                </p>
+                              </div>
+                            )
+                          )}
+                        </div>
+                      </div>
+                    </div>
                   </div>
 
                   <div className="mb-4">
                     <h4 className="text-lg font-semibold mb-2">Story:</h4>
-                    <p className="text-sm">
+                    <p className="text-md">
                       {!showFullStory
                         ? `${state.matches.story
                             .split("\n")
@@ -233,12 +251,16 @@ export default function MatchItems() {
                   <div className="flex">
                     {isAuthenticated && (
                       <div>
-                        <button
-                          type="submit"
-                          className={`mx-5 px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500`}
-                          onClick={handleSaveMatch}
-                        >
-                          {isMatchSaved ? "Remove" : "Save"}
+                        <button type="submit" onClick={handleSaveMatch}>
+                          {isMatchSaved ? (
+                            <span className="m-2  justify-center px-6 py-2 text-white   rounded-md hover:bg-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 mb-4 block dark:text-white font-sans text-base font-semibold uppercase leading-relaxed tracking-normal bg-blue-500 antialiased">
+                              Remove
+                            </span>
+                          ) : (
+                            <span className="m-2  justify-center px-6 py-2 text-white   rounded-md hover:bg-pink-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 mb-4 block dark:text-white font-sans text-base font-semibold uppercase leading-relaxed tracking-normal bg-pink-500 antialiased">
+                              Save
+                            </span>
+                          )}
                         </button>
                       </div>
                     )}

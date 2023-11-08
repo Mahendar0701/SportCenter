@@ -28,7 +28,7 @@ const PasswordForm = () => {
 
   function closeModal() {
     setIsOpen(false);
-    navigate("../");
+    navigate(`../`);
   }
 
   const {

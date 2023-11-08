@@ -67,7 +67,7 @@ const Appbar = () => {
     <>
       <Disclosure
         as="nav"
-        className="border-b border-slate-200 bg-gray-800 p-2 shadow-2xl sticky"
+        className="border-b border-slate-200 bg-gray-800 p-2 shadow-2xl sticky w-full"
       >
         {() => (
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

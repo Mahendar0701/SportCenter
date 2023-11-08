@@ -1,3 +1,4 @@
+import { Outlet } from "react-router-dom";
 import Appbar from "../../layouts/account/Appbar";
 import ProfileContainer from "./ProfileContainer";
 
@@ -6,6 +7,7 @@ const Profile = () => {
     <>
       {/* <Appbar /> */}
       <ProfileContainer />
+      <Outlet />
     </>
   );
 };

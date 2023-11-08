@@ -211,6 +211,7 @@ import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { API_ENDPOINT } from "../../config/constants";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 type Inputs = {
   email: string;
@@ -255,6 +256,7 @@ const SigninForm = () => {
       navigate("/");
     } catch (error) {
       console.error("Sign-in failed:", error);
+      toast.error("Sign in Failed! Please Try again!", { autoClose: 3000 });
     }
   };
 
