@@ -35,7 +35,7 @@ Welcome to the Sports-Center React Application repository! This project is dedic
 
 1. **Clone the Repository:**
     ```
-    git clone https://github.com/Rishith25/SportsCenter
+    git clone https://github.com/Mahendar0701/SportsCenter
     ```
 
 2. **Navigate to the Project Directory:**
