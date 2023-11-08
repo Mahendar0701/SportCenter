@@ -223,21 +223,22 @@ export default function MatchItems() {
                   </div>
 
                   <div className="mb-4">
-                    <h4 className="text-lg font-semibold mb-2">Story:</h4>
+                    <h4 className="text-lg font-semibold mb-2">Details:</h4>
                     <p className="text-md">
-                      {!showFullStory
+                      {state.matches.story}
+                      {/* {!showFullStory
                         ? `${state.matches.story
                             .split("\n")
                             .slice(0, 2)
                             .join("\n")}...`
-                        : state.matches.story}
+                        : state.matches.story} */}
                     </p>
-                    <button
+                    {/* <button
                       className="text-blue-500 hover:underline mt-2"
                       onClick={() => setShowFullStory(!showFullStory)}
                     >
                       {showFullStory ? "Read Less" : "Read More"}
-                    </button>
+                    </button> */}
                   </div>
                 </>
               ) : (
