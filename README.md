@@ -82,9 +82,9 @@ Upon launching the app, access live scores and news articles on the landing scre
 
 - In the profile settings, change your account password for improved security.
 
-Check out the deployed website for Sports-Center [https://sports-center-mahendar07.netlify.app/account/](Sports-Center).
+Check out the deployed website for Sports-Center [Sports-Center](https://sports-center-mahendar07.netlify.app/)
 
-Screenshors of the Sports-Center React Application.
+Screenshots of the Sports-Center React Application.
 
 Feel free to explore the app and enjoy an immersive experience tailored for sports lovers!
 
