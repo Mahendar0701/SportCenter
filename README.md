@@ -1,7 +1,6 @@
 # Sports-Center React Application
 
-Welcome to the Sports-Center React Application repository! This project is dedicated to crafting a dynamic and engaging front-end application using React and TypeScript, tailored for sports enthusiasts and fans.
-
+Welcome to the Sports-Center React Application repository! This project is a part of my capstone project WD301. It is built using React and TypeScript.
 ## Table of Contents
 
 - [Features](#features)
@@ -15,16 +14,17 @@ Welcome to the Sports-Center React Application repository! This project is dedic
    Stay updated with the latest news articles for various sports. Filter the news based on selected sports to keep yourself informed.
 
 2. **Filter News**
-   Customize your news feed by selecting specific sports and teams.
+   Customizing news feed and matches by selecting specific sports and teams.
 
 3. **Match Scores**
    Real-time scores for a wide range of sports are available. Refresh live scores to stay up-to-date with ongoing matches.
 
 4. **Favorites**
-   When logged in, save preferred news articles and matches for easy access in the favorites tab.
+   Once a user logs in, they have the option to save specific news articles and match updates. These saved items are conveniently organized in a favorites tab, 
+   making it easy for users to navigate back to their preferred news articles and match details whenever they want.
 
 5. **Change Password**
-   Users can change their account password for enhanced security.
+   Users can change their account password .
 
 6. **Dark Mode**
    Toggle between light and dark modes for user comfort while using the application.
