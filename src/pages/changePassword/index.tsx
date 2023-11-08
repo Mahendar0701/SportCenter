@@ -5,7 +5,6 @@ const ChangePassword = () => {
   return (
     <>
       <PasswordForm />
-      <Outlet />
     </>
   );
 };
